@@ -13,6 +13,11 @@ const timerLabel = document.getElementById("timer");
 const movesLabel = document.getElementById("moves");
 const message = document.getElementById("message");
 
+const moveSound = new Audio("assets/sounds/move.mp3");
+const eatSound  = new Audio("assets/sounds/eat.mp3");
+const winSound  = new Audio("assets/sounds/win.mp3");
+const loseSound = new Audio("assets/sounds/lose.mp3");
+
 const playerImg = new Image();
 playerImg.src = "assets/zen.jpeg"; // your player image path
 
@@ -141,7 +146,9 @@ function tryMove(dr,dc){
   if(nr<0||nr>=GRID_ROWS||nc<0||nc>=GRID_COLS) return;
   if(grid[nr][nc]===1) return;
   player.r=nr; player.c=nc; moves++; movesLabel.textContent=moves;
-  if(player.r===food.r && player.c===food.c){ levelComplete(); }
+  if(player.r===food.r && player.c===food.c){ 
+    eatSound.play();
+    levelComplete(); }
   draw();
 }
 
