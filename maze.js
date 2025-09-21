@@ -206,6 +206,8 @@ function levelComplete() {
             } else {
                 message.innerHTML = "<b>YOU WIN!</b>";
                 timerLabel.textContent = "--";
+                winSound.currentTime=0;
+                winSound.play();
             }
         }
 
@@ -220,6 +222,8 @@ function levelComplete() {
 function levelFailed(){
   running=false;
   message.innerHTML="<b>Time's up!</b> Game over.";
+  loseSound.currentTime=0;
+  loseSound.play();
 }
 
 function setupLevel(index){
