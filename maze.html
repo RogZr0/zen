@@ -1,184 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maze Game</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Maze Food Hunt</title>
   <style>
     body {
-      background: #111;
-      color: #fff;
-      text-align: center;
-      font-family: Arial, sans-serif;
+      background: #0b1020;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+      color: white;
+    }
+    #gameWrapper {
+      display: flex;
+      gap: 20px;
     }
     canvas {
-      display: block;
-      margin: 20px auto;
-      background: #000;
-      border: 3px solid #fff;
-    }
-    #ui {
-      margin-top: 10px;
-    }
-    button {
-      margin: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
+      background: #eef5e6;
       border-radius: 8px;
-      border: none;
+      box-shadow: 0 0 12px rgba(0,0,0,0.6);
+    }
+    .side {
+      width: 200px;
+    }
+    .button {
+      display: inline-block;
+      padding: 8px 12px;
+      margin: 6px 0;
+      background: #ffd94d;
+      color: #041018;
+      font-weight: bold;
+      border-radius: 6px;
       cursor: pointer;
+    }
+    .stat {
+      margin: 6px 0;
+      background: rgba(255,255,255,0.1);
+      padding: 6px;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
-  <h1>Maze Game</h1>
-  <canvas id="gameCanvas" width="400" height="400"></canvas>
-  <div id="ui">
-    <button onclick="startGame()">Start Game</button>
-    <button onclick="restartGame()">Restart</button>
-    <p id="status"></p>
+  <div id="gameWrapper">
+    <canvas id="game" width="600" height="600"></canvas>
+    <div class="side">
+      <h2>Maze Hunt</h2>
+      <div class="stat">Round: <span id="round">0 / 5</span></div>
+      <div class="stat">Time left: <span id="timer">--</span></div>
+      <div class="stat">Moves: <span id="moves">0</span></div>
+      <div id="message">Press <b>Start</b> to begin</div>
+      <div class="button" id="startBtn">Start</div>
+      <div class="button" id="restartBtn">Restart</div>
+    </div>
   </div>
-
-  <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-
-    const tileSize = 40; // 10x10 tiles
-    const rows = 10;
-    const cols = 10;
-
-    let player = { x: 1, y: 1 };
-    let food = { x: 0, y: 0 };
-    let maps = [];
-    let currentLevel = 0;
-    let score = 0;
-    let timer;
-    let timeLeft = 15;
-
-    function generateMaps() {
-      maps = [];
-      for (let i = 0; i < 5; i++) {
-        let map = [];
-        for (let r = 0; r < rows; r++) {
-          let row = [];
-          for (let c = 0; c < cols; c++) {
-            if (r === 0 || r === rows - 1 || c === 0 || c === cols - 1) {
-              row.push(1); // walls border
-            } else {
-              row.push(Math.random() < 0.2 ? 1 : 0); // random walls
-            }
-          }
-          map.push(row);
-        }
-        map[1][1] = 0; // start position
-        maps.push(map);
-      }
-    }
-
-    function placeFood() {
-      let map = maps[currentLevel];
-      let placed = false;
-      while (!placed) {
-        let r = Math.floor(Math.random() * rows);
-        let c = Math.floor(Math.random() * cols);
-        if (map[r][c] === 0 && !(r === player.y && c === player.x)) {
-          food = { x: c, y: r };
-          placed = true;
-        }
-      }
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      let map = maps[currentLevel];
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          if (map[r][c] === 1) {
-            ctx.fillStyle = "#444";
-            ctx.fillRect(c * tileSize, r * tileSize, tileSize, tileSize);
-          }
-        }
-      }
-      // Draw food
-      ctx.fillStyle = "yellow";
-      ctx.beginPath();
-      ctx.arc(food.x * tileSize + tileSize/2, food.y * tileSize + tileSize/2, tileSize/3, 0, Math.PI*2);
-      ctx.fill();
-      // Draw player
-      ctx.fillStyle = "cyan";
-      ctx.fillRect(player.x * tileSize, player.y * tileSize, tileSize, tileSize);
-    }
-
-    function movePlayer(dx, dy) {
-      let newX = player.x + dx;
-      let newY = player.y + dy;
-      let map = maps[currentLevel];
-      if (map[newY][newX] === 0) {
-        player.x = newX;
-        player.y = newY;
-      }
-      if (player.x === food.x && player.y === food.y) {
-        score++;
-        currentLevel++;
-        if (score === 5) {
-          document.getElementById("status").textContent = "You Win!";
-          clearInterval(timer);
-          return;
-        }
-        loadLevel();
-      }
-      draw();
-    }
-
-    function keyHandler(e) {
-      switch (e.key) {
-        case "ArrowUp":
-        case "w": movePlayer(0, -1); break;
-        case "ArrowDown":
-        case "s": movePlayer(0, 1); break;
-        case "ArrowLeft":
-        case "a": movePlayer(-1, 0); break;
-        case "ArrowRight":
-        case "d": movePlayer(1, 0); break;
-      }
-    }
-
-    function startTimer() {
-      timeLeft = 15;
-      document.getElementById("status").textContent = `Time: ${timeLeft}`;
-      timer = setInterval(() => {
-        timeLeft--;
-        document.getElementById("status").textContent = `Time: ${timeLeft}`;
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          document.getElementById("status").textContent = "Time Up! Game Over!";
-          let audio = new Audio("https://www.soundjay.com/buttons/beep-07.wav");
-          audio.play();
-        }
-      }, 1000);
-    }
-
-    function loadLevel() {
-      if (currentLevel >= maps.length) return;
-      player = { x: 1, y: 1 };
-      placeFood();
-      draw();
-      clearInterval(timer);
-      startTimer();
-    }
-
-    function startGame() {
-      generateMaps();
-      score = 0;
-      currentLevel = 0;
-      loadLevel();
-      window.addEventListener("keydown", keyHandler);
-    }
-
-    function restartGame() {
-      clearInterval(timer);
-      startGame();
-    }
-  </script>
+  <script src="maze.js"></script>
 </body>
 </html>
