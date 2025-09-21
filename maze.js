@@ -2,7 +2,7 @@
 const GRID_ROWS = 15, GRID_COLS = 15;
 const LEVELS = 5;
 const CELL_PADDING = 2;
-const TIME_PER_LEVEL = 15; // seconds
+const TIME_PER_LEVEL = 10; // seconds
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
