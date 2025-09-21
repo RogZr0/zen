@@ -20,13 +20,16 @@ function playMoveSound() {
 }
 const eatSound  = new Audio("assets/sounds/eat.mp3");
 const winSound  = new Audio("assets/sounds/win.mp3");
-const loseSound = new Audio("assets/sounds/lose.mp3");
+const loseSound = new Audio("assets/sounds/loss.mp3");
 
 const playerImg = new Image();
 playerImg.src = "assets/zen.jpeg"; // your player image path
 
 const foodImg = new Image();
 foodImg.src = "assets/signlaban.jpg";   
+
+const playerLoseImg = new Image();
+playerLoseImg.src = "assets/lose.jpg"
 
 
 let cellSize = canvas.width / GRID_COLS;
@@ -219,11 +222,40 @@ function levelComplete() {
 }
 
 
-function levelFailed(){
-  running=false;
-  message.innerHTML="<b>Time's up!</b> Game over.";
-  loseSound.currentTime=0;
-  loseSound.play();
+function levelFailed() {
+    running = false;
+    message.innerHTML = "<b>Time's up!</b> Game over.";
+
+    // Play lose sound
+    loseSound.currentTime = 0;
+    loseSound.play();
+
+    // Animate player image to fill the canvas
+    const startX = player.c * cellSize;
+    const startY = player.r * cellSize;
+    const startSize = cellSize;
+    const endSize = canvas.width; // full canvas
+    const endX = 0;
+    const endY = 0;
+    const duration = 1000; // 1 second animation
+    const startTime = performance.now();
+
+    function animate(time) {
+        const elapsed = time - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const size = startSize + (endSize - startSize) * progress;
+        const x = startX + (endX - startX) * progress;
+        const y = startY + (endY - startY) * progress;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(playerLoseImg, x, y, size, size);
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    requestAnimationFrame(animate);
 }
 
 function setupLevel(index){
