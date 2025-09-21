@@ -145,7 +145,7 @@ function tryMove(dr,dc){
   const nr=player.r+dr,nc=player.c+dc;
   if(nr<0||nr>=GRID_ROWS||nc<0||nc>=GRID_COLS) return;
   if(grid[nr][nc]===1) return;
-  player.r=nr; player.c=nc; moves++; movesLabel.textContent=moves;
+  player.r=nr; player.c=nc; moves++; movesLabel.textContent=moves;moveSound.currentTime=0;moveSound.play();
   if(player.r===food.r && player.c===food.c){ 
     eatSound.play();
     levelComplete(); }
