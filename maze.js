@@ -1,8 +1,8 @@
 // Config
-const GRID_ROWS = 15, GRID_COLS = 15;
+const GRID_ROWS = 10, GRID_COLS = 10;
 const LEVELS = 5;
 const CELL_PADDING = 2;
-const TIME_PER_LEVEL = 5; // seconds
+const TIME_PER_LEVEL = 4; // seconds
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -18,6 +18,7 @@ playerImg.src = "assets/zen.jpeg"; // your player image path
 
 const foodImg = new Image();
 foodImg.src = "assets/signlaban.jpg";   
+
 
 let cellSize = canvas.width / GRID_COLS;
 
