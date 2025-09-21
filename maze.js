@@ -164,17 +164,47 @@ function startTimer(){
 }
 function stopTimer(){ clearInterval(timer); }
 
-function levelComplete(){
-  stopTimer();
-  currentLevel++;
-  if(currentLevel>=LEVELS){
-    message.innerHTML="<b>YOU WIN!</b>";
-    running=false; timerLabel.textContent="--";
-  } else {
-    roundLabel.textContent=`${currentLevel +1} / ${LEVELS}`;
-    setupLevel(currentLevel);
-  }
+function levelComplete() {
+    stopTimer();
+    running = false;
+
+    currentLevel++; // increment immediately
+    if (currentLevel >= LEVELS) {
+        // Animate player image to fill the canvas
+        const startX = player.c * cellSize;
+        const startY = player.r * cellSize;
+        const startSize = cellSize;
+        const endSize = canvas.width;
+        const endX = 0;
+        const endY = 0;
+        const duration = 1000;
+        const startTime = performance.now();
+
+        function animate(time) {
+            const elapsed = time - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const size = startSize + (endSize - startSize) * progress;
+            const x = startX + (endX - startX) * progress;
+            const y = startY + (endY - startY) * progress;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(playerImg, x, y, size, size);
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                message.innerHTML = "<b>YOU WIN!</b>";
+                timerLabel.textContent = "--";
+            }
+        }
+
+        requestAnimationFrame(animate);
+    } else {
+        roundLabel.textContent = `${currentLevel + 1} / ${LEVELS}`;
+        setupLevel(currentLevel);
+    }
 }
+
 
 function levelFailed(){
   running=false;
