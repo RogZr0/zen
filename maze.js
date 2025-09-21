@@ -13,6 +13,12 @@ const timerLabel = document.getElementById("timer");
 const movesLabel = document.getElementById("moves");
 const message = document.getElementById("message");
 
+const playerImg = new Image();
+playerImg.src = "assets/player.png"; // your player image path
+
+const foodImg = new Image();
+foodImg.src = "assets/food.png";   
+
 let cellSize = canvas.width / GRID_COLS;
 
 // State
