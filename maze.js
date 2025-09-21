@@ -14,10 +14,10 @@ const movesLabel = document.getElementById("moves");
 const message = document.getElementById("message");
 
 const playerImg = new Image();
-playerImg.src = "assets/player.png"; // your player image path
+playerImg.src = "assets/zen.jpeg"; // your player image path
 
 const foodImg = new Image();
-foodImg.src = "assets/food.png";   
+foodImg.src = "assets/signlaban.jpg";   
 
 let cellSize = canvas.width / GRID_COLS;
 
@@ -124,12 +124,14 @@ function draw(){
     }
   }
   // food
-  const fx=food.c*cellSize+cellSize/2, fy=food.r*cellSize+cellSize/2;
-  ctx.beginPath(); ctx.arc(fx,fy,cellSize*0.3,0,Math.PI*2);
-  ctx.fillStyle="gold"; ctx.fill();
+  const fx=food.c*cellSize, fy=food.r*cellSize;
+//   ctx.beginPath(); ctx.arc(fx,fy,cellSize*0.3,0,Math.PI*2);
+//   ctx.fillStyle="gold"; ctx.fill();
+ctx.drawImage(foodImg, fx, fy, cellSize, cellSize);
   // player
-  const px=player.c*cellSize+cellSize/2, py=player.r*cellSize+cellSize/2;
-  ctx.fillStyle="cyan"; ctx.beginPath(); ctx.arc(px,py,cellSize*0.35,0,Math.PI*2); ctx.fill();
+  const px=player.c*cellSize, py=player.r*cellSize;
+//   ctx.fillStyle="cyan"; ctx.beginPath(); ctx.arc(px,py,cellSize*0.35,0,Math.PI*2); ctx.fill();
+ctx.drawImage(playerImg, px, py, cellSize, cellSize);
 }
 
 function tryMove(dr,dc){
