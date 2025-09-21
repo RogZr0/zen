@@ -14,6 +14,10 @@ const movesLabel = document.getElementById("moves");
 const message = document.getElementById("message");
 
 const moveSound = new Audio("assets/sounds/move.mp3");
+function playMoveSound() {
+    const s = moveSound.cloneNode();
+    s.play();
+}
 const eatSound  = new Audio("assets/sounds/eat.mp3");
 const winSound  = new Audio("assets/sounds/win.mp3");
 const loseSound = new Audio("assets/sounds/lose.mp3");
@@ -145,7 +149,7 @@ function tryMove(dr,dc){
   const nr=player.r+dr,nc=player.c+dc;
   if(nr<0||nr>=GRID_ROWS||nc<0||nc>=GRID_COLS) return;
   if(grid[nr][nc]===1) return;
-  player.r=nr; player.c=nc; moves++; movesLabel.textContent=moves;moveSound.currentTime=0;moveSound.play();
+  player.r=nr; player.c=nc; moves++; movesLabel.textContent=moves;moveSound.currentTime=0;playMoveSound();
   if(player.r===food.r && player.c===food.c){ 
     eatSound.play();
     levelComplete(); }
