@@ -20,7 +20,8 @@ function playMoveSound() {
 }
 const eatSound  = new Audio("assets/sounds/eat.mp3");
 const winSound  = new Audio("assets/sounds/win.mp3");
-const loseSound = new Audio("assets/sounds/loss.mp3");
+const loseSound = new Audio("assets/sounds/lose.mp3");
+const startSound = new Audio("assets/sounds/start.mp3")
 
 const playerImg = new Image();
 playerImg.src = "assets/zen.jpeg"; // your player image path
@@ -283,8 +284,8 @@ function startGame(){
   setupLevel(0);
 }
 
-startBtn.addEventListener("click",()=>{ if(!running) startGame(); });
-restartBtn.addEventListener("click",()=>{ stopTimer(); running=false; startGame(); });
+startBtn.addEventListener("click",()=>{ if(!running) startGame();startSound.currentTime=0; startSound.play() });
+restartBtn.addEventListener("click",()=>{ stopTimer(); running=false; startGame(); startSound.currentTime=0; startSound.play() });
 
 // Initial draw
 grid=makeEmptyGrid(); draw();
