@@ -162,7 +162,7 @@ function levelComplete(){
     message.innerHTML="<b>YOU WIN!</b>";
     running=false; timerLabel.textContent="--";
   } else {
-    roundLabel.textContent=`${currentLevel} / ${LEVELS}`;
+    roundLabel.textContent=`${currentLevel +1} / ${LEVELS}`;
     setupLevel(currentLevel);
   }
 }
@@ -185,7 +185,7 @@ function setupLevel(index){
   }
   food=placeFoodOnReachableCell(grid,player);
   moves=0; movesLabel.textContent=moves;
-  roundLabel.textContent=`${index} / ${LEVELS}`;
+  roundLabel.textContent=`${index +1} / ${LEVELS}`;
   message.innerHTML=`Round ${index+1} — go get the food!`;
   running=true; draw(); startTimer();
 }
@@ -193,7 +193,7 @@ function setupLevel(index){
 function startGame(){
   maps=generateLevels(LEVELS);
   order=[...Array(LEVELS).keys()]; shuffleArray(order);
-  currentLevel=0; roundLabel.textContent=`0 / ${LEVELS}`;
+  currentLevel=0; roundLabel.textContent=`1 / ${LEVELS}`;
   setupLevel(0);
 }
 
