@@ -7,17 +7,30 @@
   <link rel="stylesheet" href="maze.css">
 </head>
 <body>
+  <div id="videoOverlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:black;z-index:1000;display:flex;align-items:center;justify-content:center;">
+    <video id="introVideo" width="640" height="700" controls autoplay>
+      <source src="assets/intro/vid.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
   <div id="gameWrapper">
     <canvas id="game" width="700" height="700"></canvas>
     <div class="side">
-      <h2>HUNGRY ZEN</h2>
+      <img src="assets/intro/oochistudios.png" style="width:150px;display:block;margin:10px auto;">
+      <div style="text-align:center;">
+        <h4 style="margin-bottom:0;">PRESENTS</h4>
+        <h2 style="margin-top:5px;">HUNGRY ZEN</h2>
+      </div>
       <div class="stat">Round: <span id="round">1 / 5</span></div>
       <div class="stat">Time left: <span id="timer">--</span></div>
       <div class="stat">Moves: <span id="moves">0</span></div>
       <div id="message">Press <b>Start</b> to begin</div>
       <div class="button" id="startBtn">Start</div>
       <div class="button" id="restartBtn">Restart</div>
-      <h2>BEN G PRODUCTIONS</h2>
+      <div style="text-align:center;">
+        <h1 style="margin-bottom:0;">BEN G</h1>
+        <h2 style="margin-top:5px;">PRODUCTIONS</h2>
+      </div>
     </div>
   </div>
   <script src="maze.js"></script>

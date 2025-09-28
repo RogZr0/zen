@@ -289,3 +289,28 @@ restartBtn.addEventListener("click",()=>{ stopTimer(); running=false; startGame(
 
 // Initial draw
 grid=makeEmptyGrid(); draw();
+
+window.addEventListener("DOMContentLoaded", () => {
+  const videoOverlay = document.getElementById("videoOverlay");
+  const introVideo = document.getElementById("introVideo");
+  // Hide game UI initially
+  canvas.style.display = "none";
+  startBtn.style.display = "none";
+  restartBtn.style.display = "none";
+  roundLabel.style.display = "none";
+  timerLabel.style.display = "none";
+  movesLabel.style.display = "none";
+  message.style.display = "none";
+
+  introVideo.addEventListener("ended", () => {
+    videoOverlay.style.display = "none";
+    // Show game UI
+    canvas.style.display = "";
+    startBtn.style.display = "";
+    restartBtn.style.display = "";
+    roundLabel.style.display = "";
+    timerLabel.style.display = "";
+    movesLabel.style.display = "";
+    message.style.display = "";
+  });
+});
