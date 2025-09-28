@@ -23,8 +23,9 @@ const winSound  = new Audio("assets/sounds/win.mp3");
 const loseSound = new Audio("assets/sounds/lose.mp3");
 const startSound = new Audio("assets/sounds/start.mp3")
 
+let selectedPlayerImgSrc = "assets/zen.jpeg"; // default
 const playerImg = new Image();
-playerImg.src = "assets/zen.jpeg"; // your player image path
+playerImg.src = selectedPlayerImgSrc;
 
 const foodImg = new Image();
 foodImg.src = "assets/signlaban.jpg";   
@@ -290,6 +291,7 @@ restartBtn.addEventListener("click",()=>{ stopTimer(); running=false; startGame(
 // Initial draw
 grid=makeEmptyGrid(); draw();
 
+// Character selection logic
 window.addEventListener("DOMContentLoaded", () => {
   const videoOverlay = document.getElementById("videoOverlay");
   const introVideo = document.getElementById("introVideo");
@@ -302,6 +304,7 @@ window.addEventListener("DOMContentLoaded", () => {
   timerLabel.style.display = "none";
   movesLabel.style.display = "none";
   message.style.display = "none";
+  document.getElementById("characterSelect").style.display = "none"; // Hide character select initially
 
   // Show splash for 2 seconds, then play video
   setTimeout(() => {
@@ -315,9 +318,43 @@ window.addEventListener("DOMContentLoaded", () => {
 
   introVideo.addEventListener("ended", () => {
     videoOverlay.style.display = "none";
+    // Show character selection only
+    document.getElementById("characterSelect").style.display = "";
+    message.style.display = "";
+    message.innerHTML = "Choose your player to begin!";
+    // Hide game UI until character is chosen
+    canvas.style.display = "none";
+    startBtn.style.display = "none";
+    restartBtn.style.display = "none";
+    roundLabel.style.display = "none";
+    timerLabel.style.display = "none";
+    movesLabel.style.display = "none";
+  });
+
+  let characterChosen = false;
+
+  document.querySelectorAll('.char-choice').forEach(img => {
+    img.addEventListener('click', function() {
+      selectedPlayerImgSrc = this.getAttribute('data-img');
+      playerImg.src = selectedPlayerImgSrc;
+      // Highlight selected
+      document.querySelectorAll('.char-choice').forEach(i => i.style.borderColor = "#ccc");
+      this.style.borderColor = "#00f";
+      characterChosen = true;
+      // Show Start button now
+      startBtn.style.display = "";
+      message.innerHTML = "Now press <b>Start</b>!";
+    });
+  });
+
+  startBtn.addEventListener("click", () => {
+    if (!characterChosen) {
+      message.innerHTML = "Please select a character first!";
+      return;
+    }
     // Show game UI
+    document.getElementById("characterSelect").style.display = "none";
     canvas.style.display = "";
-    startBtn.style.display = "";
     restartBtn.style.display = "";
     roundLabel.style.display = "";
     timerLabel.style.display = "";
@@ -326,3 +363,6 @@ window.addEventListener("DOMContentLoaded", () => {
     if(!running){ startGame(); }
   });
 });
+
+// Initial draw
+grid=makeEmptyGrid(); draw();

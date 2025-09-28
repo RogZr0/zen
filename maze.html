@@ -11,7 +11,7 @@
     <img src="assets/intro/oochistudios.png" alt="Oochi Studios" style="width:40vw;max-width:320px;height:auto;display:block;">
   </div>
   <div id="videoOverlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:black;z-index:1000;display:none;align-items:center;justify-content:center;">
-    <video id="introVideo" width="640" height="700" controls autoplay>
+    <video id="introVideo" width="640" height="700" controls autoplay muted>
       <source src="assets/intro/vid.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -23,6 +23,23 @@
       <div style="text-align:center;">
         <h4 style="margin-bottom:0;">PRESENTS</h4>
         <h2 style="margin-top:5px;">HUNGRY ZEN</h2>
+      </div>
+      
+      <!-- Character selection UI -->
+      <div id="characterSelect" style="text-align:center;margin:15px 0;">
+        <span>Choose your player:</span><br>
+        <div style="display:inline-block;margin:5px;">
+          <img src="assets/zen.jpeg" class="char-choice" data-img="assets/zen.jpeg" style="width:60px;height:60px;cursor:pointer;border:2px solid #ccc;border-radius:10px;display:block;margin:auto;">
+          <div style="margin-top:4px;font-size:14px;">Hungry ZEN</div>
+        </div>
+        <div style="display:inline-block;margin:5px;">
+          <img src="assets/serious.png" class="char-choice" data-img="assets/serious.png" style="width:60px;height:60px;cursor:pointer;border:2px solid #ccc;border-radius:10px;display:block;margin:auto;">
+          <div style="margin-top:4px;font-size:14px;">Serious ZEN</div>
+        </div>
+        <div style="display:inline-block;margin:5px;">
+          <img src="assets/smiling.png" class="char-choice" data-img="assets/smiling.png" style="width:60px;height:60px;cursor:pointer;border:2px solid #ccc;border-radius:10px;display:block;margin:auto;">
+          <div style="margin-top:4px;font-size:14px;">Smiling ZEN</div>
+        </div>
       </div>
       <div class="stat">Round: <span id="round">1 / 5</span></div>
       <div class="stat">Time left: <span id="timer">--</span></div>
