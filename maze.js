@@ -293,6 +293,7 @@ grid=makeEmptyGrid(); draw();
 window.addEventListener("DOMContentLoaded", () => {
   const videoOverlay = document.getElementById("videoOverlay");
   const introVideo = document.getElementById("introVideo");
+  const splashOverlay = document.getElementById("splashOverlay");
   // Hide game UI initially
   canvas.style.display = "none";
   startBtn.style.display = "none";
@@ -301,6 +302,16 @@ window.addEventListener("DOMContentLoaded", () => {
   timerLabel.style.display = "none";
   movesLabel.style.display = "none";
   message.style.display = "none";
+
+  // Show splash for 2 seconds, then play video
+  setTimeout(() => {
+    splashOverlay.style.display = "none";
+    videoOverlay.style.display = "flex";
+    try {
+      introVideo.currentTime = 0;
+      introVideo.play().catch(()=>{});
+    } catch(e) {}
+  }, 2000);
 
   introVideo.addEventListener("ended", () => {
     videoOverlay.style.display = "none";
@@ -312,5 +323,6 @@ window.addEventListener("DOMContentLoaded", () => {
     timerLabel.style.display = "";
     movesLabel.style.display = "";
     message.style.display = "";
+    if(!running){ startGame(); }
   });
 });
